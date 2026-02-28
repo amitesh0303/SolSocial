@@ -133,19 +133,19 @@ const PROGRAM_PUBKEY = new PublicKey(
   process.env.NEXT_PUBLIC_PROGRAM_ID ?? "11111111111111111111111111111111"
 );
 
-export async function getProfilePDA(wallet: PublicKey): Promise<PublicKey> {
-  const [pda] = await PublicKey.findProgramAddressSync(
+export function getProfilePDA(wallet: PublicKey): PublicKey {
+  const [pda] = PublicKey.findProgramAddressSync(
     [Buffer.from("profile"), wallet.toBuffer()],
     PROGRAM_PUBKEY
   );
   return pda;
 }
 
-export async function getPostPDA(
+export function getPostPDA(
   author: PublicKey,
   nonce: number
-): Promise<PublicKey> {
-  const [pda] = await PublicKey.findProgramAddressSync(
+): PublicKey {
+  const [pda] = PublicKey.findProgramAddressSync(
     [
       Buffer.from("post"),
       author.toBuffer(),
@@ -156,22 +156,22 @@ export async function getPostPDA(
   return pda;
 }
 
-export async function getLikePDA(
+export function getLikePDA(
   user: PublicKey,
   post: PublicKey
-): Promise<PublicKey> {
-  const [pda] = await PublicKey.findProgramAddressSync(
+): PublicKey {
+  const [pda] = PublicKey.findProgramAddressSync(
     [Buffer.from("like"), user.toBuffer(), post.toBuffer()],
     PROGRAM_PUBKEY
   );
   return pda;
 }
 
-export async function getFollowPDA(
+export function getFollowPDA(
   follower: PublicKey,
   following: PublicKey
-): Promise<PublicKey> {
-  const [pda] = await PublicKey.findProgramAddressSync(
+): PublicKey {
+  const [pda] = PublicKey.findProgramAddressSync(
     [Buffer.from("follow"), follower.toBuffer(), following.toBuffer()],
     PROGRAM_PUBKEY
   );
@@ -186,7 +186,7 @@ export async function buildCreateProfileTx(
   bio: string,
   avatarUri: string
 ) {
-  const profilePDA = await getProfilePDA(wallet);
+  const profilePDA = getProfilePDA(wallet);
   return program.methods
     .createProfile(username, displayName, bio, avatarUri)
     .accounts({
@@ -205,7 +205,7 @@ export async function buildCreatePostTx(
   community = "",
   nonce = Date.now()
 ) {
-  const postPDA = await getPostPDA(author, nonce);
+  const postPDA = getPostPDA(author, nonce);
   return program.methods
     .createPost(content, mediaUri, community)
     .accounts({
@@ -221,7 +221,7 @@ export async function buildLikePostTx(
   user: PublicKey,
   postAddress: PublicKey
 ) {
-  const likePDA = await getLikePDA(user, postAddress);
+  const likePDA = getLikePDA(user, postAddress);
   return program.methods
     .likePost()
     .accounts({
@@ -238,9 +238,9 @@ export async function buildFollowTx(
   follower: PublicKey,
   following: PublicKey
 ) {
-  const followPDA = await getFollowPDA(follower, following);
-  const followerProfile = await getProfilePDA(follower);
-  const followingProfile = await getProfilePDA(following);
+  const followPDA = getFollowPDA(follower, following);
+  const followerProfile = getProfilePDA(follower);
+  const followingProfile = getProfilePDA(following);
   return program.methods
     .followUser()
     .accounts({
