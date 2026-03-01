@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+target/
+.next/
+dist/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Build artifacts
+*.js.map
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/settings.json
+.idea/
+
+# Solana/Anchor
+.anchor/
+test-ledger/
+
+# Misc
+*.log
+coverage/
