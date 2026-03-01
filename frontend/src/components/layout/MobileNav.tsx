@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 const items = [
   {
-    href: "/",
+    href: "/app",
     label: "Feed",
     icon: (
       <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
@@ -44,6 +44,9 @@ export function MobileNav() {
   const pathname = usePathname();
   const { publicKey } = useWallet();
 
+  // Hide mobile nav on landing page
+  if (pathname === "/") return null;
+
   const allItems = [
     ...items,
     ...(publicKey
@@ -66,10 +69,7 @@ export function MobileNav() {
     <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-zinc-800 bg-zinc-950/90 backdrop-blur-md lg:hidden">
       <div className="flex items-center justify-around px-2 py-2">
         {allItems.map((item) => {
-          const isActive =
-            item.href === "/"
-              ? pathname === "/"
-              : pathname.startsWith(item.href);
+          const isActive = pathname.startsWith(item.href);
           return (
             <Link
               key={item.href}

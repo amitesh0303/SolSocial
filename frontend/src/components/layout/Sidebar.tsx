@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 const navItems = [
   {
-    href: "/",
+    href: "/app",
     label: "Feed",
     icon: (
       <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
