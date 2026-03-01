@@ -3,6 +3,9 @@ node_modules/
 target/
 .next/
 dist/
+**/dist/
+**/.next/
+*.tsbuildinfo
 
 # Environment
 .env
